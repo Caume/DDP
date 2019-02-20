@@ -1,5 +1,21 @@
 /* Dynamic decrytion procedure example - (c) 2005 - 2006 Omar A. Herrera Reyna
    This code is released under GNU General Public License v3.0
+   
+	The following code illustrates an implementation of a DDP. The effective keyspace in this
+	particular example is not very long; the only sources of information are certain fields of
+	the date/time registered by the machine (hour, month, year).
+	The encrypted payload consists of a shellcode that will execute a continuous ping on the
+	local host (IP address 127.0.0.1) once it has been successfully decrypted. This particular
+	example uses blowfish as the cryptographic algorithm.
+	The example is specific to Windows and requires the use of Openssl crypto libraries and
+	windows libraries (i.e. linking with libcrypto and libkernel32 libraries) to compile. The
+	main loop in the routine is the do�while section; it will awake every 10 seconds and try
+	to decrypt and execute the shellcode which will only happen if the year is 2005, the
+	month is December and the hour is 21 (i.e. 9pm, with any value for minutes and
+	seconds).
+	The key is not included within the program body (it is derived from the predefined
+	date/time information, which is then XORed with the values 0x0F, 0x20, 0x6A, 0x04,
+	0x10, 0x0D, 0x6E and 0x08 to add some confusion).	
 */
 
 #include <stdio.h>
